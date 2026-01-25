@@ -81,8 +81,7 @@ export function useSearch(query: string) {
     queryKey: ['search', query],
     queryFn: async () => {
       const { data } = await api.get(`/api/search?q=${encodeURIComponent(query)}`)
-      const list = data.data?.lists || []
-      return list.map((i: any) => ({ id: i.book_id, title: i.book_title, cover: i.book_pic, episodes: i.chapter_count })) as Drama[]
+      return data.data as Drama[]
     },
     enabled: query.length > 0
   })
