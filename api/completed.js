@@ -1,4 +1,4 @@
-const API_URL = 'https://captain.sapimu.au/reelshort/api/v1'
+const API_URL = process.env.API_URL
 const TOKEN = process.env.AUTH_TOKEN
 const HEADERS = { Authorization: `Bearer ${TOKEN}`, 'User-Agent': 'Mozilla/5.0' }
 

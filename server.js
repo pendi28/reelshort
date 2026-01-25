@@ -4,7 +4,7 @@ import { config } from 'dotenv'
 config()
 
 const app = express()
-const API_URL = 'https://captain.sapimu.au/reelshort/api/v1'
+const API_URL = process.env.API_URL
 const TOKEN = process.env.AUTH_TOKEN
 
 app.get('/api/foryou', async (req, res) => {
