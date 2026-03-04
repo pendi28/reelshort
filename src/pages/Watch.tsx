@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import { ArrowLeft, ChevronLeft, ChevronRight, Lock } from 'lucide-react'
+import { ArrowLeft, ChevronLeft, ChevronRight } from 'lucide-react'
 import Hls from 'hls.js'
 import { useBook, useChapters, useVideo } from '../hooks/useDramas'
 
@@ -8,7 +8,6 @@ export default function Watch() {
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
   const [currentEpisode, setCurrentEpisode] = useState(0)
-  const [showLockPopup, setShowLockPopup] = useState(false)
   const videoRef = useRef<HTMLVideoElement>(null)
   const hlsRef = useRef<Hls | null>(null)
 
@@ -40,14 +39,12 @@ export default function Watch() {
   }, [videoUrl])
 
   const handleEpisodeChange = (ep: number) => {
-    if (ep >= 30) { setShowLockPopup(true); return }
     setCurrentEpisode(ep)
   }
 
   const handlePrevious = () => { if (currentEpisode > 0) setCurrentEpisode(currentEpisode - 1) }
   const handleNext = () => {
     if (chapters && currentEpisode < chapters.length - 1) {
-      if (currentEpisode + 1 >= 30) { setShowLockPopup(true); return }
       setCurrentEpisode(currentEpisode + 1)
     }
   }
@@ -105,21 +102,6 @@ export default function Watch() {
             </div>
           </div>
         </div>
-
-        {showLockPopup && (
-          <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4">
-            <div className="bg-zinc-900 rounded-xl p-6 max-w-sm w-full text-center">
-              <div className="w-16 h-16 bg-red-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Lock size={32} className="text-red-500" />
-              </div>
-              <p className="text-white mb-6">This website is trial only. For full API access, check Telegram @sapitokenbot</p>
-              <div className="flex gap-2">
-                <button onClick={() => setShowLockPopup(false)} className="flex-1 bg-zinc-800 text-white py-3 rounded-lg font-medium">OK</button>
-                <a href="https://t.me/sapitokenbot" target="_blank" rel="noopener noreferrer" className="flex-1 bg-red-500 hover:bg-red-600 py-3 rounded-lg font-medium text-center">Telegram</a>
-              </div>
-            </div>
-          </div>
-        )}
       </div>
     </div>
   )
